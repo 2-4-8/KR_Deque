@@ -6,22 +6,18 @@ public class Launcher {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
-        DequeImpl<Integer> deque = new DequeImpl<>();
+        DequeIntSortable deque = new DequeIntSortable();
         deque.print();
-        deque.addLast(1);
+        deque.addFirst(5);
+        deque.addLast(7);
+        deque.addLast(9);
+        deque.addFirst(3);
         deque.print();
-        deque.addLast(2);
-        deque.print();
-        deque.addFirst(6);
-        deque.print();
-        for (int i=0;i<10;i++) {
-            deque.addLast(i*5);
-            deque.print();
-        }
+        deque.deleteLast();
         deque.deleteFirst();
         deque.print();
-        for (int i=0;i<12;i++) {
-            deque.deleteLast();
+        for (int i=0;i<40;i++) {
+            deque.addFirst(i*10);
             deque.print();
         }
     }

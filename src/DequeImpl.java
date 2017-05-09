@@ -10,24 +10,29 @@ public class DequeImpl<T> implements MyDeque<T> {
     private int capacity;
     private int first;
     private int last;
+    private boolean isEmpty;
 
     DequeImpl() {
         values = new Object[DEFAULT_CAPACITY];
         capacity = DEFAULT_CAPACITY;
         first = last = 0;
+        isEmpty = true;
     }
 
     DequeImpl(int capacity) {
         values = new Object[capacity];
         this.capacity = capacity;
         first = last = 0;
+        isEmpty = true;
     }
 
     DequeImpl(T[] source) {
         values = new Object[source.length];
+        System.arraycopy(source, 0, values, source.length-1, source.length);
         this.capacity = source.length;
         first = 0;
         last = source.length - 1;
+        isEmpty = (source[0] == null);
     }
 
     private void redistributeElements() {
@@ -72,7 +77,7 @@ public class DequeImpl<T> implements MyDeque<T> {
             addFirst(o);
         } else {
             if (isEmpty()) {
-                values[first] = o;
+                addToEmpty(o);
             } else {
                 if (first == 0) first = capacity - 1;
                 else first--;
@@ -92,7 +97,7 @@ public class DequeImpl<T> implements MyDeque<T> {
             addLast(o);
         } else {
             if (isEmpty()) {
-                values[last] = o;
+                addToEmpty(o);
             } else {
                 if (last == capacity - 1) last = 0;
                 else last++;
@@ -101,19 +106,33 @@ public class DequeImpl<T> implements MyDeque<T> {
         }
     }
 
+    private void addToEmpty(T o) {
+        values[0] = o;
+        first = last = 0;
+        isEmpty = false;
+    }
+
     @Override
     public T deleteFirst() {
         T result = getFirst();
-        values[first] = null;
-        if (first == capacity - 1) first = 0; else first++;
+        if (size() == 1) {
+            clearDeque();
+        } else {
+            values[first] = null;
+            if (first == capacity - 1) first = 0; else first++;
+        }
         return result;
     }
 
     @Override
     public T deleteLast() {
         T result = getLast();
-        values[last] = null;
-        if (last == 0) last = capacity - 1; else last--;
+        if (size() == 1) {
+            clearDeque();
+        } else {
+            values[last] = null;
+            if (last == 0) last = capacity - 1; else last--;
+        }
         return result;
     }
 
@@ -139,15 +158,20 @@ public class DequeImpl<T> implements MyDeque<T> {
 
     @Override
     public boolean isEmpty() {
-        return (first == last && values[first] == null);
+        return isEmpty;
     }
 
     @Override
     public void clearDeque() {
-
+        for (Object o: values) {
+            o = null;
+        }
+        first = last = 0;
+        isEmpty = true;
     }
 
     public void print() {
+        if (isEmpty()) System.out.print("Deque is empty");
         for (Object o: values) {
             if (o != null && !isEmpty()) {
                 System.out.print(o);
