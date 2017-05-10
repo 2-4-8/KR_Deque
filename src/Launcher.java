@@ -6,6 +6,10 @@ public class Launcher {
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
+        new Launcher().go();
+    }
+
+    public void go() {
         DequeIntSortable deque = new DequeIntSortable();
         deque.print();
         deque.addFirst(5);
@@ -16,10 +20,41 @@ public class Launcher {
         deque.deleteLast();
         deque.deleteFirst();
         deque.print();
-        for (int i=0;i<40;i++) {
+        for (int i=0;i<10;i++) {
             deque.addFirst(i*10);
             deque.print();
         }
+        System.out.println(deque.isSorted());
+        deque.sort();
+        deque.print();
+        System.out.println(deque.isSorted());
+        System.out.println(deque.size());
+        System.out.println();
+
+        deque = new DequeIntSortable(2);
+        deque.addFirst(1);
+        deque.addLast(2);
+        System.out.println(deque.isSorted());
+        System.out.println();
+
+        deque = new DequeIntSortable(1);
+        deque.addFirst(1);
+        System.out.println(deque.isSorted());
+        System.out.println();
+
+        deque = new DequeIntSortable();
+        System.out.println(deque.isSorted());
+        System.out.println();
+
+        deque = new DequeIntSortable(2);
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.print();
+        System.out.println(deque.isSorted());
+        deque.sort();
+        deque.print();
+        System.out.println(deque.isSorted());
+        System.out.println();
     }
 
 }

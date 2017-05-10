@@ -35,6 +35,33 @@ public class DequeImpl<T> implements MyDeque<T> {
         isEmpty = (source[0] == null);
     }
 
+    public static DequeImpl copyDeque(DequeImpl src) {
+        DequeImpl newDeque = new DequeImpl(src.capacity);
+        Object[] newValues = new Object[src.capacity];
+        System.arraycopy(src.values, 0, newValues, 0, src.values.length);
+        newDeque.setValues(newValues);
+        newDeque.setFirst(src.first);
+        newDeque.setLast(src.last);
+        newDeque.setEmpty(src.isEmpty);
+        return newDeque;
+    }
+
+    private void setValues(Object[] values) {
+        this.values = values;
+    }
+
+    private void setFirst(int first) {
+        this.first = first;
+    }
+
+    private void setLast(int last) {
+        this.last = last;
+    }
+
+    private void setEmpty(boolean empty) {
+        isEmpty = empty;
+    }
+
     private void redistributeElements() {
         int size = size();
         if (size>0 && first!=0) {
